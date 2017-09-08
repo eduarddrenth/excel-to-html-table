@@ -26,7 +26,7 @@ if (typeof process.argv[2] === 'undefined') {
 }
 
 htmlFile += '<!DOCTYPE html>\n';
-htmlFile += '<html><body>\n';
+htmlFile += '<html><body><div class="xlsx">\n';
 
 function getPosition(string, subString, index) {
    return string.split(subString, index).join(subString).length;
@@ -91,7 +91,7 @@ htmlFile += '        }\n';
 htmlFile += '    }\n';
 htmlFile += '}\n';
 htmlFile += 'function findOnEnter(event) {if (event.keyCode == 13) findString();}\n';
-htmlFile += 'document.addEventListener("keypress",findOnEnter);\n';
+htmlFile += 'if (document.addEventListener) document.addEventListener("keypress",findOnEnter); else  document.attachEvent("onkeypress",findOnEnter)\n';
 htmlFile += '--></script>\n';
 htmlFile += '</div></body></html>';
 
