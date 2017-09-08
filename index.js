@@ -57,15 +57,7 @@ for (var sheet in sheets) {
 		// Close the table
 		htmlFile += '</table>' + '\n';
 	}
-	/*console.log(sheets[sheet]['!merges']);
-	sheets[sheet]['!merges'].forEach(function(merge, index) {
-		//console.log(merge);
-		rowNumber = (getPosition(htmlFile, '<th>', (merge.s.r+1)) + 3);
-		console.log(rowNumber);
-		htmlArray = htmlFile.split('');
-		htmlArray.splice(rowNumber, 0, ' colspan="3"');
-		htmlFile = htmlArray.join('');
-	});*/
+	break;
 }
 // Close the file
 htmlFile += '</body>' + '\n' + '</html>';
