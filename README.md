@@ -1,5 +1,14 @@
 # excel-to-html-table
 
+This Fork's changes:
+
+* only process first 3 columns in first sheet
+* just plain table cells, no headings
+* wrap in html/body
+* entities only or & and <
+* deal with missing cels in third column
+
+
 This program will convert each worksheet in and excel workbook into an HTML5 table and replace common symbols with their unicode 
 equivalent(&amp;, &mdash;, &ndash)
 
