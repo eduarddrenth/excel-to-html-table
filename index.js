@@ -25,8 +25,8 @@ if (typeof process.argv[2] === 'undefined') {
 	}
 }
 
-htmlFile += '<!DOCTYPE html>' +'\n';
-htmlFile += '<html>' + '\n' + '<body onkeypress="if (event.keyCode==13) findString()">' +'\n';
+htmlFile += '<!DOCTYPE html>\n';
+htmlFile += '<html><body>\n';
 
 function getPosition(string, subString, index) {
    return string.split(subString, index).join(subString).length;
@@ -36,10 +36,10 @@ for (var sheet in sheets) {
 	
 	// Start building a new table if the worksheet has entries
 	if (typeof sheet !== 'undefined') {
-		htmlFile += '<form id="f1" name="f1" action="javascript:void()" style="top: 10px;">';
+		htmlFile += '<form id="f1" name="f1" action="javascript:void()" style="margin-top: 10px;margin-bottom: 10px;">';
 		htmlFile += '<input id="t1" name="t1" value="" placeholder="syktekst en &lt;enter> (&lt;enter> werhelber)" size="40" type="text"> Sykje mei dit fjild wurket net in edge';
-		htmlFile += '</form>';
-		htmlFile += '<table style="margin-top: 50px; position: absolute">' + '\n';		
+		htmlFile += '</form>\n';
+		htmlFile += '<table>\n';		
 		// Iterate over each cell value on the sheet
 		var closed = true;
 		var row = 0;
@@ -55,11 +55,11 @@ for (var sheet in sheets) {
 					htmlFile += '<td>' + sheets[sheet][cell].w.replace('&', '&amp;').replace('<', '&lt;') + '</td>';
 				}
 			}
-			if (cell.slice(0, 1) === 'C') {htmlFile += '</tr>' + '\n'; closed=true;}
+			if (cell.slice(0, 1) === 'C') {htmlFile += '</tr>\n'; closed=true;}
 		}
-		if (!closed) htmlFile += '</tr>' + '\n';
+		if (!closed) htmlFile += '</tr>\n';
 		// Close the table
-		htmlFile += '</table>' + '\n';
+		htmlFile += '</table>\n';
 	}
 	break;
 }
@@ -90,8 +90,10 @@ htmlFile += '            document.body.scrollTop = document.documentElement.scro
 htmlFile += '        }\n';
 htmlFile += '    }\n';
 htmlFile += '}\n';
+htmlFile += 'function findOnEnter(event) {if (event.keyCode == 13) findString();}\n';
+htmlFile += 'document.addEventListener("keypress",findOnEnter);\n';
 htmlFile += '--></script>\n';
-htmlFile += '</body>' + '\n' + '</html>';
+htmlFile += '</div></body></html>';
 
 // Write htmlFile variable to the disk with newFileName as the name
 fs.writeFile(newFileName, htmlFile, (err) => {
