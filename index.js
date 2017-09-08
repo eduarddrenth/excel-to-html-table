@@ -36,6 +36,11 @@ for (var sheet in sheets) {
 	
 	// Start building a new table if the worksheet has entries
 	if (typeof sheet !== 'undefined') {
+		htmlFile += '<form id="f1" name="f1" action="javascript:void()" onsubmit="if(this.t1.value!=null &amp;&amp; this.t1.value!=\'\')';
+		htmlFile += 'findString(this.t1.value);return false;">';
+		htmlFile += '<input id="t1" name="t1" value="text" size="20" type="text">';
+		htmlFile += '<input name="b1" value="Find" type="submit">';
+		htmlFile += '</form>';
 		htmlFile += '<table>' + '\n';		
 		// Iterate over each cell value on the sheet
 		var closed = true;
@@ -60,6 +65,18 @@ for (var sheet in sheets) {
 	break;
 }
 // Close the file
+htmlFile += '<script type="text/javascript">\n';
+htmlFile += 'function findString (str) {\n';
+htmlFile += ' var strFound;\n';
+htmlFile += ' if (window.find) {\n';
+htmlFile += '  strFound=self.find(str);\n';
+htmlFile += '  if (!strFound) {\n';
+htmlFile += '   strFound=self.find(str,0,1);\n';
+htmlFile += '   while (self.find(str,0,1)) continue;\n';
+htmlFile += '  }\n';
+htmlFile += ' }\n';
+htmlFile += '}\n';
+htmlFile += '</script>\n';
 htmlFile += '</body>' + '\n' + '</html>';
 
 // Write htmlFile variable to the disk with newFileName as the name
