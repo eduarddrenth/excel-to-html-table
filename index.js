@@ -25,7 +25,7 @@ if (typeof process.argv[2] === 'undefined') {
 	}
 }
 
-//htmlFile += '<html>' + '\n' + '<body>' +'\n';
+htmlFile += '<html>' + '\n' + '<body>' +'\n';
 
 function getPosition(string, subString, index) {
    return string.split(subString, index).join(subString).length;
@@ -35,33 +35,21 @@ for (var sheet in sheets) {
 	
 	// Start building a new table if the worksheet has entries
 	if (typeof sheet !== 'undefined') {
-		htmlFile += '<table summary="" class="turntable">' + '\n' + '<thead>';		
+		htmlFile += '<table>' + '\n';		
 		// Iterate over each cell value on the sheet
 		for (var cell in sheets[sheet]) {			
 							
 			// Protect against undefined values
 			if (typeof sheets[sheet][cell].w !== 'undefined') {
-				//The first row in the table
-				if (cell === 'A1') {
-					htmlFile += '\n' + '<tr>' + '\n' + '<th>' + sheets[sheet][cell].w.replace('& ', '&amp;').replace('-', '&ndash;').replace('–', '&mdash;') + '</th>';
-				} else {
-					//The second row in the table closes the thead element
-					if (cell === 'A2') {
-						htmlFile += '\n' + '</tr>' + '\n' + '</thead>' + '\n' + '<tr>' + '\n' + '<th>' + sheets[sheet][cell].w.replace('& ', '&amp;').replace('-', '&ndash;').replace('–', '&mdash;') + '</th>';
-					} else {
-						// The first cell in each row
-						if (cell.slice(0, 1) === 'A') {
-							htmlFile += '\n' + '</tr>' + '\n' + '<tr>' + '\n' + '<th>' + sheets[sheet][cell].w.replace('& ', '&amp;').replace('-', '&ndash;').replace('–', '&mdash;') + '</th>';
-							//All the other cells
-						} else {
-							htmlFile += '\n' + '<td>' + sheets[sheet][cell].w.replace('& ', '&amp;').replace('-', '&ndash;').replace('–', '&mdash') + '</td>';
-						}
-					}
+				if (cell.slice(0, 1) === 'A') htmlFile += '<tr>';
+				if (cell.slice(0, 1) === 'A' || cell.slice(0, 1) === 'B' || cell.slice(0, 1) === 'C') {
+					htmlFile += '<td>' + sheets[sheet][cell].w.replace('&', '&amp;').replace('<', '&lt;') + '</td>';
 				}
+				if (cell.slice(0, 1) === 'C') htmlFile += '</tr>' + '\n';
 			}
 		}
 		// Close the table
-		htmlFile += '\n' + '</tr>' + '\n' + '</table>' + '\n';
+		htmlFile += '</table>' + '\n';
 	}
 	/*console.log(sheets[sheet]['!merges']);
 	sheets[sheet]['!merges'].forEach(function(merge, index) {
@@ -74,7 +62,7 @@ for (var sheet in sheets) {
 	});*/
 }
 // Close the file
-//htmlFile += '</body>' + '\n' + '</html>';
+htmlFile += '</body>' + '\n' + '</html>';
 
 // Write htmlFile variable to the disk with newFileName as the name
 fs.writeFile(newFileName, htmlFile, (err) => {
