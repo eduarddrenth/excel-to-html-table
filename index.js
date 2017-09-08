@@ -25,6 +25,7 @@ if (typeof process.argv[2] === 'undefined') {
 	}
 }
 
+htmlFile += '<!DOCTYPE html>' +'\n';
 htmlFile += '<html>' + '\n' + '<body>' +'\n';
 
 function getPosition(string, subString, index) {
@@ -37,17 +38,22 @@ for (var sheet in sheets) {
 	if (typeof sheet !== 'undefined') {
 		htmlFile += '<table>' + '\n';		
 		// Iterate over each cell value on the sheet
-		for (var cell in sheets[sheet]) {			
-							
+		var closed = true;
+		for (var cell in sheets[sheet]) {
+			if (cell.slice(0, 1) === 'A') {
+				if (!closed) htmlFile += '</tr>' + '\n';
+				closed=false;
+				htmlFile += '<tr>';
+			}
 			// Protect against undefined values
 			if (typeof sheets[sheet][cell].w !== 'undefined') {
-				if (cell.slice(0, 1) === 'A') htmlFile += '<tr>';
 				if (cell.slice(0, 1) === 'A' || cell.slice(0, 1) === 'B' || cell.slice(0, 1) === 'C') {
 					htmlFile += '<td>' + sheets[sheet][cell].w.replace('&', '&amp;').replace('<', '&lt;') + '</td>';
 				}
-				if (cell.slice(0, 1) === 'C') htmlFile += '</tr>' + '\n';
 			}
+			if (cell.slice(0, 1) === 'C') {htmlFile += '</tr>' + '\n'; closed=true;}
 		}
+		if (!closed) htmlFile += '</tr>' + '\n';
 		// Close the table
 		htmlFile += '</table>' + '\n';
 	}
