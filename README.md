@@ -5,7 +5,7 @@ This Fork's changes:
 * only process first 3 columns in first sheet
 * just plain table cells, no headings
 * wrap in html/body
-* entities only or & and <
+* entities only for & and <
 * deal with missing cels in third column
 * search function (help text in frisian)
 
