@@ -26,7 +26,7 @@ if (typeof process.argv[2] === 'undefined') {
 }
 
 htmlFile += '<!DOCTYPE html>' +'\n';
-htmlFile += '<html>' + '\n' + '<body>' +'\n';
+htmlFile += '<html>' + '\n' + '<body onkeypress="if (event.keyCode==13) findString()">' +'\n';
 
 function getPosition(string, subString, index) {
    return string.split(subString, index).join(subString).length;
@@ -36,19 +36,18 @@ for (var sheet in sheets) {
 	
 	// Start building a new table if the worksheet has entries
 	if (typeof sheet !== 'undefined') {
-		htmlFile += '<form id="f1" name="f1" action="javascript:void()" onsubmit="if(this.t1.value!=null &amp;&amp; this.t1.value!=\'\')';
-		htmlFile += 'findString(this.t1.value);return false;">';
-		htmlFile += '<input id="t1" name="t1" value="text" size="20" type="text">';
-		htmlFile += '<input name="b1" value="Find" type="submit">';
+		htmlFile += '<form id="f1" name="f1" action="javascript:void()" onsubmit="findString();return false;" style="position: fixed; top: 10px;">';
+		htmlFile += '<input id="t1" name="t1" value="" placeholder="syktekst en &lt;enter> (&lt;enter> werhelber)" size="40" type="text">';
 		htmlFile += '</form>';
-		htmlFile += '<table>' + '\n';		
+		htmlFile += '<table style="margin-top: 50px">' + '\n';		
 		// Iterate over each cell value on the sheet
 		var closed = true;
+		var row = 0;
 		for (var cell in sheets[sheet]) {
 			if (cell.slice(0, 1) === 'A') {
 				if (!closed) htmlFile += '</tr>' + '\n';
 				closed=false;
-				htmlFile += '<tr>';
+				htmlFile += '<tr' + ((++row % 2 == 0) ? '' : ' style="background-color: #eeeeee"') + '>';
 			}
 			// Protect against undefined values
 			if (typeof sheets[sheet][cell].w !== 'undefined') {
@@ -65,18 +64,15 @@ for (var sheet in sheets) {
 	break;
 }
 // Close the file
-htmlFile += '<script type="text/javascript">\n';
-htmlFile += 'function findString (str) {\n';
-htmlFile += ' var strFound;\n';
+htmlFile += '<script type="text/javascript"><!--\n';
+htmlFile += 'var t1=document.getElementById(\'t1\');\n';
+htmlFile += 'function findString () {\n';
+htmlFile += ' if (t1.value==null||t1.value==\'\') return;\n';
 htmlFile += ' if (window.find) {\n';
-htmlFile += '  strFound=self.find(str);\n';
-htmlFile += '  if (!strFound) {\n';
-htmlFile += '   strFound=self.find(str,0,1);\n';
-htmlFile += '   while (self.find(str,0,1)) continue;\n';
-htmlFile += '  }\n';
+htmlFile += '  if (!window.find(t1.value,false,null,true)) t1.focus();';
 htmlFile += ' }\n';
 htmlFile += '}\n';
-htmlFile += '</script>\n';
+htmlFile += '--></script>\n';
 htmlFile += '</body>' + '\n' + '</html>';
 
 // Write htmlFile variable to the disk with newFileName as the name

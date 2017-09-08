@@ -7,6 +7,7 @@ This Fork's changes:
 * wrap in html/body
 * entities only or & and <
 * deal with missing cels in third column
+* search function (placeholder help text in frisian)
 
 
 This program will convert each worksheet in and excel workbook into an HTML5 table and replace common symbols with their unicode 
