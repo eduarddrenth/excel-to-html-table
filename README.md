@@ -7,7 +7,16 @@ This Fork's changes:
 * wrap in html/body
 * entities only or & and <
 * deal with missing cels in third column
-* search function (placeholder help text in frisian)
+* search function (help text in frisian)
+
+## usage
+
+* clone this repo
+* cd into the directory
+* install npm
+* install nodejs
+* npm install xlsx
+* node index.js "path to your excel"
 
 
 This program will convert each worksheet in and excel workbook into an HTML5 table and replace common symbols with their unicode 

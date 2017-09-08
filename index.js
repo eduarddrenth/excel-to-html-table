@@ -36,10 +36,10 @@ for (var sheet in sheets) {
 	
 	// Start building a new table if the worksheet has entries
 	if (typeof sheet !== 'undefined') {
-		htmlFile += '<form id="f1" name="f1" action="javascript:void()" onsubmit="findString();return false;" style="position: fixed; top: 10px;">';
-		htmlFile += '<input id="t1" name="t1" value="" placeholder="syktekst en &lt;enter> (&lt;enter> werhelber)" size="40" type="text">';
+		htmlFile += '<form id="f1" name="f1" action="javascript:void()" style="top: 10px;">';
+		htmlFile += '<input id="t1" name="t1" value="" placeholder="syktekst en &lt;enter> (&lt;enter> werhelber)" size="40" type="text"> Sykje mei dit fjild wurket net in edge';
 		htmlFile += '</form>';
-		htmlFile += '<table style="margin-top: 50px">' + '\n';		
+		htmlFile += '<table style="margin-top: 50px; position: absolute">' + '\n';		
 		// Iterate over each cell value on the sheet
 		var closed = true;
 		var row = 0;
@@ -67,10 +67,28 @@ for (var sheet in sheets) {
 htmlFile += '<script type="text/javascript"><!--\n';
 htmlFile += 'var t1=document.getElementById(\'t1\');\n';
 htmlFile += 'function findString () {\n';
-htmlFile += ' if (t1.value==null||t1.value==\'\') return;\n';
-htmlFile += ' if (window.find) {\n';
-htmlFile += '  if (!window.find(t1.value,false,null,true)) t1.focus();';
-htmlFile += ' }\n';
+htmlFile += '    if (t1.value==null||t1.value==\'\') return;\n';
+htmlFile += '        if (window.find) {\n';
+htmlFile += '        if (!window.find(t1.value,false,null,true)) {\n';
+htmlFile += '            t1.focus();\n';
+htmlFile += '            document.body.scrollTop = document.documentElement.scrollTop = 0;\n';
+htmlFile += '        }\n';
+htmlFile += '    } else if (document.selection && document.body.createTextRange) {\n';
+htmlFile += '        var sel = document.selection;\n';
+htmlFile += '        var textRange;\n';
+htmlFile += '        if (sel.type == "Text") {\n';
+htmlFile += '            textRange = sel.createRange();\n';
+htmlFile += '            textRange.collapse(false);\n';
+htmlFile += '        } else {\n';
+htmlFile += '            textRange = document.body.createTextRange();\n';
+htmlFile += '        }\n';
+htmlFile += '        if (textRange.findText(t1.value)) {\n';
+htmlFile += '            textRange.select();\n';
+htmlFile += '        } else {\n';
+htmlFile += '            t1.focus();\n';
+htmlFile += '            document.body.scrollTop = document.documentElement.scrollTop = 0;\n';
+htmlFile += '        }\n';
+htmlFile += '    }\n';
 htmlFile += '}\n';
 htmlFile += '--></script>\n';
 htmlFile += '</body>' + '\n' + '</html>';
