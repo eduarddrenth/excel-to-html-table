@@ -2,12 +2,13 @@
 
 This Fork's changes:
 
-* only process first 3 columns in first sheet
+* only process configurable number of columns and sheets
 * just plain table cells, no headings
 * wrap in html/body
 * entities only for & and <
 * deal with missing cels in third column
 * search function (help text in frisian)
+* utf-8 charset
 
 ## usage
 
